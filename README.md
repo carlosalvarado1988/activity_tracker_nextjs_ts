@@ -14,10 +14,6 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
@@ -103,9 +99,38 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 - it only downloads the content target, being a src (server render component) or client component but not other data.
 - it pre-fecthes the links that are in the viewport.
-  -- this can be seen in prod, build the app. for instance, links to query params will be pre-fetched to improve performance (link page to href="/users?sortOrder=name" or href="/users?sortOrder=email")
+  - this can be seen in prod, build the app. for instance, links to query params will be pre-fetched to improve performance (link page to href="/users?sortOrder=name" or href="/users?sortOrder=email")
 - chaches pages on the client, to improve performance, it doesn't call the server again.
 
 #### Page cache
 
 - it is cleared every full page reload.
+
+#### useRouter()
+
+- use for programmatic navigation
+- make sure to import from 'router/navigation'.
+  - note that next/router is discontinued
+
+#### Suspense
+
+- a special wrapper component to show something while data is being loaded.
+- syntax: `<Suspense fallback={<p>Loading ... </p>}>`
+- SEO impact, you will see the 1st html loaded, shows the loading states for suspense = true.
+  however this doesnt impact the SEO, because the connection pool is not closed and the data is retrieved.
+  SEO knows it and reads the data when it loads.
+  - This is called streamming (the same way as videos, nextjs streams html content)
+- What if we want to wrap a whole page instead of sections of the page?
+  - you can use the layout component to place the suspense element
+
+#### Loading page
+
+- another approach to display the user with a loading state is using hte laoding.tsx file.
+- works similar to layout, page, not-found pages.
+
+#### Not-found page
+
+- These pages can live at the page level to give a customized message.
+- The precedence: first use the page level file, then the root level file, if not, the default nextjs
+- To call it from a validation statement: notFound() `import { notFound } from "next/navigation"`
+- important to show when page url is valid but query does not have valid data, eg. user id > 100
