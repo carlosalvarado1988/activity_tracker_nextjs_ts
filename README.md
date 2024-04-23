@@ -37,6 +37,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - Typescript
 - Tailwind
 
+#### Eslint bypass error temporary
+
+- Eslint version 9 not working on current next version [github issue](https://github.com/vercel/next.js/issues/64409)
+  - the version 9 is too recent, workaround is to downgrade eslint to stable version: `"eslint": "^8.41.0"`
+
 #### jsonplaceholder
 
 - Fake backend to get json objects [link](https://jsonplaceholder.typicode.com/)
@@ -95,7 +100,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - this ...slug will be captured as an array of slug items.
 - if we want the slug to be optional, for instance, users/ (all of them) and users/students/active/curreny_year (to make a inline filter), we use double square brakets: [[...slug]]
 
-#### Link elements
+#### Link element from next/navigation
 
 - it only downloads the content target, being a src (server render component) or client component but not other data.
 - it pre-fecthes the links that are in the viewport.
@@ -134,3 +139,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - The precedence: first use the page level file, then the root level file, if not, the default nextjs
 - To call it from a validation statement: notFound() `import { notFound } from "next/navigation"`
 - important to show when page url is valid but query does not have valid data, eg. user id > 100
+
+#### Error page
+
+- These pages can live at the page level to give a customized message.
+- The precedence: first use the page level file, then the root level file, if not, the default nextjs
+- The error captured by nextjs can be handled to a third party loggin service like [SENTRY](https://sentry.io/welcome/), display to the user or to the console log.
+- The error is passed down as a props, also a reset param to allow the user to retry when the error is temporary
+- The error page should be a client component 'use client' directive.
