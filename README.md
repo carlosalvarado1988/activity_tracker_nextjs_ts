@@ -55,7 +55,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Rendering with nextjS
 
-![Rendering](readme_img/rendering.png)
+![Rendering](readme_imgs/rendering.png)
 
 #### Static Rendering
 
@@ -82,3 +82,30 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 - This needs Node and Tailwind to be installed.
 - npm i -D daisyui@latest
+- follow installation instructions `https://daisyui.com/docs/install/`
+
+## Routing NextJS
+
+#### Dynamic Routing
+
+- built-in routing mapping to folder name, you use [id] , [slug], etc
+- this is available only on Page.tsx as built int props params: {id}, other component in the folder level wont have access to the dynamic param
+- nested ID need the structure slug1/[id]/slug2/[other_id].
+- id identificators should not repeat, slugs can repeat.
+
+#### Catch-all segments Routing
+
+- if we need a very dynamic url with many slugs (referring to categories for example), you can use the catch-all segment feature. [...slug], the base route will require to have a slug after.
+- this ...slug will be captured as an array of slug items.
+- if we want the slug to be optional, for instance, users/ (all of them) and users/students/active/curreny_year (to make a inline filter), we use double square brakets: [[...slug]]
+
+#### Link elements
+
+- it only downloads the content target, being a src (server render component) or client component but not other data.
+- it pre-fecthes the links that are in the viewport.
+  -- this can be seen in prod, build the app. for instance, links to query params will be pre-fetched to improve performance (link page to href="/users?sortOrder=name" or href="/users?sortOrder=email")
+- chaches pages on the client, to improve performance, it doesn't call the server again.
+
+#### Page cache
+
+- it is cleared every full page reload.
