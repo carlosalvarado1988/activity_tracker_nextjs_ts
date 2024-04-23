@@ -147,3 +147,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - The error captured by nextjs can be handled to a third party loggin service like [SENTRY](https://sentry.io/welcome/), display to the user or to the console log.
 - The error is passed down as a props, also a reset param to allow the user to retry when the error is temporary
 - The error page should be a client component 'use client' directive.
+
+## API calls
+
+#### route files
+
+- same structure as pages
+- syntax: `export function GET(request: NextRequest) {`
+- Crud methods are named is capital letters: GET, POST, PUT/PATCH, DELETE
+  - PUT: replace an object, PATCH: replace properties on one object
+- if `request: NextRequest` is omited, NextJS will cache the data, to avoid that, explicitly add request as the parameter even if its not used.
+
+#### ZOD: validation library
+
+- Zod [documentation](https://zod.dev/)
