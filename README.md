@@ -161,3 +161,27 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 #### ZOD: validation library
 
 - Zod [documentation](https://zod.dev/)
+
+#### Firebase with NextJS
+
+- Follow [documentation](https://firebase.google.com/codelabs/firebase-nextjs#1) for setup
+- currently using ekos.sv@gmail for this project
+- login to [console](https://console.firebase.google.com/u/0/?pli=1)
+- install firebase `npm install firebase`
+
+#### Mysql installation
+
+- visit [download site](https://dev.mysql.com/downloads/)
+- go to MySQL Community Server
+- downloaded version mysql-8.3.0-macos14-arm64 for mac
+- mysql workbench warning that functions might be limited for latest version db 8.0 and above
+- downloaded [DBeaver Universal Database Tool](https://dbeaver.io/): dbeaver-ce-24.0.3-macos-aarch64
+
+#### Prisma with NextJS
+
+- MySQL database engine
+- read [documentation](https://www.prisma.io/)
+- install Prisma extension in VScode.
+- setup prisma with CLI `npx prisma init`
+- prisma folder is created with reference to the database
+- `.env` file is created as well
