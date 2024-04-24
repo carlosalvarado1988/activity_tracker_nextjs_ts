@@ -214,18 +214,25 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - note: to use Prisma client instance in development for nextjs (because it reloads twice), we need to add additional code to prevent the refresh to create too many instances in every import in dev mode.
   - [see documentation](https://www.prisma.io/docs/guides/other/troubleshooting-orm/help-articles/nextjs-prisma-client-dev-practices)
 
-## Cloudinary for images
+#### Cloudinary for images
 
 - Setup cloudinary following the [documentation](https://console.cloudinary.com/console/c-7a6c04749c39512e5174cf535ef869/getting-started)
 - account setup with ekos.sv@gmail.com
 - install the npm package: `npm i next-cloudinary` and follow instructions for [next env](https://next.cloudinary.dev/)
-- To add the upload [widget](https://console.cloudinary.com/settings/c-7a6c04749c39512e5174cf535ef869/upload), we need to get the upload preset key from settings of our account.
 
-  - make sure to add the upload preset.
-  - we create an unsign preset for this project
+###### Adding Upload Widget
+
+- To add the upload [widget](https://console.cloudinary.com/settings/c-7a6c04749c39512e5174cf535ef869/upload), we need to get the upload preset key from settings of our account.
+- setup the preset in your account
+  - go to settings in the [cloud dashboard](https://console.cloudinary.com/settings/c-7a6c04749c39512e5174cf535ef869/billing/plans)
+  - go to product environment settings/upload option
+  - go to Upload presets, click on upload preset.
+    - copy the name and change it to "unsigned"
+    - folder: leave it blank, all files will be stored in the root directory.
+      - added: activity_tracking_app folder
 
 ```
-  <CldUploadWidget process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME">
+  <CldUploadWidget uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}>
     {({ open }) => (
         <button className="btn btn-primary" onClick={() => open()}>
             Upload
@@ -233,3 +240,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
     )}
   </CldUploadWidget>
 ```
+
+- configure options of widget in [demo page](https://demo.cloudinary.com/uw/#/)
