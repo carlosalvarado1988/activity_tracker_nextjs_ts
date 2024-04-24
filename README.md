@@ -177,7 +177,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - mysql workbench warning that functions might be limited for latest version db 8.0 and above
 - downloaded [DBeaver Universal Database Tool](https://dbeaver.io/): dbeaver-ce-24.0.3-macos-aarch64
 
-#### Prisma with NextJS
+#### Prisma sdetup with NextJS/MySQL
 
 - MySQL database engine
 - read [documentation](https://www.prisma.io/)
@@ -188,19 +188,19 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - updated connection string using the [documentation reference](https://www.prisma.io/docs/orm/reference/connection-urls)
 - updated DATABASE_URL in .env file
 
-#### Defining data models in prisma
+#### Prisma Data models
 
 - entities or application domains like products, users, etc. see [documentation](https://www.prisma.io/docs/concepts/components/prisma-schema/data-model)
 - whenver we edit a model, we want to format it `npx prisma format`
 
-#### Prisma Migrate
+#### Prisma Migratations
 
 - for relational db, you run: `npx prisma migrate dev`, for non-relational db: `npx prisma db push`
 - the first migration creates the db, you just state the connection string to the db
 - whenever we change or add a model, we need to run the prisma migration: `npx prisma migrate dev`
   - eg: adding to a model: `registeredAt DateTime @default(now())`
 
-#### Prisma Clinet Instance
+#### Prisma Client Instance
 
 - added @prisma/client in npm packages
 - created the prisma client instance to be using in the code
