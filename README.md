@@ -185,3 +185,31 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - setup prisma with CLI `npx prisma init`
 - prisma folder is created with reference to the database
 - `.env` file is created as well
+- updated connection string using the [documentation reference](https://www.prisma.io/docs/orm/reference/connection-urls)
+- updated DATABASE_URL in .env file
+
+#### Defining data models in prisma
+
+- entities or application domains like products, users, etc. see [documentation](https://www.prisma.io/docs/concepts/components/prisma-schema/data-model)
+- whenver we edit a model, we want to format it `npx prisma format`
+
+#### Prisma Migrate
+
+- for relational db, you run: `npx prisma migrate dev`, for non-relational db: `npx prisma db push`
+- the first migration creates the db, you just state the connection string to the db
+- whenever we change or add a model, we need to run the prisma migration: `npx prisma migrate dev`
+  - eg: adding to a model: `registeredAt DateTime @default(now())`
+
+#### Prisma Clinet Instance
+
+- added @prisma/client in npm packages
+- created the prisma client instance to be using in the code
+
+```
+  import { PrismaClient } from "@prisma/client";
+  const prisma = new PrismaClient();
+  export default prisma;
+```
+
+- note: to use Prisma client instance in development for nextjs (because it reloads twice), we need to add additional code to prevent the refresh to create too many instances in every import in dev mode.
+  - [see documentation](https://www.prisma.io/docs/guides/other/troubleshooting-orm/help-articles/nextjs-prisma-client-dev-practices)

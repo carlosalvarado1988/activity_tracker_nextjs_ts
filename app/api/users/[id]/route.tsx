@@ -1,17 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/prisma/client";
 import { UserSchema } from "../schema";
 
 interface Props {
-  params: { id: number };
+  params: { id: string };
 }
 
-export function GET(request: NextRequest, { params: { id } }: Props) {
-  // Fetch data from db
-  // if not found, return 404
-  if (id > 10)
+export async function GET(request: NextRequest, { params: { id } }: Props) {
+  const user = await prisma.user.findUnique({ where: { id: parseInt(id) } });
+  if (!user)
     return NextResponse.json({ error: "User not fund" }, { status: 404 });
-  // else return data
-  return NextResponse.json({ id: 1, name: "Carlos" });
+  return NextResponse.json(user);
 }
 
 export async function PUT(request: NextRequest, { params: { id } }: Props) {
@@ -22,7 +21,7 @@ export async function PUT(request: NextRequest, { params: { id } }: Props) {
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
-  if (id > 10)
+  if (parseInt(id) > 10)
     return NextResponse.json({ error: "User not fund" }, { status: 404 });
   // else fetch user with given id
   // if user does not exists, return 404 (not found)
@@ -34,7 +33,7 @@ export async function PUT(request: NextRequest, { params: { id } }: Props) {
 export async function DELETE(request: NextRequest, { params: { id } }: Props) {
   // Fetch user from db
   // if not found, return 404
-  if (id > 10)
+  if (parseInt(id) > 10)
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   // delete the user
   // return 200 empty data
