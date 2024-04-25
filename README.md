@@ -242,3 +242,162 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ```
 
 - configure options of widget in [demo page](https://demo.cloudinary.com/uw/#/)
+
+## Authentication
+
+- The outline:
+  - setting up next auth
+  - configuring the google provider
+  - authentication sessions
+  - protecting routes
+  - database adapters
+  - configuring the credentials
+
+#### Setting up next auth
+
+- set up [auth js](https://authjs.dev/getting-started)
+- `npm install next-auth@beta`, this is v5, see [documentation](https://authjs.dev/getting-started/migrating-to-v5)
+- Add an Route Handler under /app/api/auth/[...nextauth]/route.ts
+
+#### Configuring the google provider
+
+- visit [Google OAuth Configuration](https://console.cloud.google.com/projectselector2/apis/credentials?supportedpurview=project&authuser=2)
+- configured OAuth consent screen as external
+- add test users and let all config to point as test env.
+  - configure the Authorized redirect URIs Oauth in google using the redirect url provided by next-auth `[origin]/api/auth/callback/google`
+- add both GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env fole
+- add google provider in the next auth file
+
+```
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+  ]
+```
+
+- add login auth link to navbar `/api/auth/signin`, endpoint exposed from next-auth
+
+#### Authentication sessions
+
+- See [authentication methos in authjs v5](https://authjs.dev/getting-started/migrating-to-v5#authenticating-server-side)
+
+###### Accessing session from the client
+
+- We need to wrap the app into a authProvider component
+- this should wrap the body in layout, but it needs to be a client component - "use client"
+- we can not convert the layout component to be a client component becuase it has the metadata
+  - this needs to be src - server rendered component
+- you separate the wrapper - client component to take a children as prop.
+
+```
+  "use client";
+  import React, { ReactNode } from "react";
+  import { SessionProvider } from "next-auth/react";
+
+
+  const AuthProvider = ({ children }: { children: ReactNode }) => {
+  return <SessionProvider>{children}</SessionProvider>;
+  };
+
+  export default AuthProvider;
+```
+
+- now you can access session information from anywhere in the app
+- wherever you access session data, you need to convert the component to client component
+
+###### Accessing session from the server
+
+- un SRC (server rendered components) load the following
+
+```
+  import { auth } from "@/auth";
+  export const Component = () => {
+    const session = await auth();
+  }
+```
+
+#### Configure Facebook Provider for Next Auth
+
+- follow the [documentation](https://next-auth.js.org/providers/facebook)
+- creating an app within facebook for [developers](https://developers.facebook.com/apps/819546503241366/dashboard/)
+- created activity_tracking_app for production
+- created activity_tracking_app_dev for dev
+- as facebook has its built in oauth application, [see docs](https://next-auth.js.org/configuration/providers/oauth)
+- callback urls:
+  - https://next-app-ten-azure.vercel.app/api/auth/callback/facebook (prod)
+  - http://localhost:3000/api/auth/callback/facebook (dev)
+
+#### Configure GitHub Provider for Next Auth
+
+- NOTE: only allows one callback url - meaning it will only work for prod in this demo
+- see [documentation](https://next-auth.js.org/providers/github)
+- creating an OAuth app within [github](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app)
+- go to developer settings and create the oauth app.
+
+#### Logout session
+
+- the logout session is already handled by authjs, we <Link> to /api/auth/signout and it will take us to the logout provider page
+- you can customize it on the provider page
+- if logout from server is needed, you can trigger the funtion `import { signOut } from "@/auth";` from next-auth instance (NextAuth)
+
+#### Protecting routes: Middleware
+
+- You use a middleware to inspect every request and determine the next step.
+- [documentation](https://next-auth.js.org/tutorials/securing-pages-and-api-routes)
+- nextjs is looking for a middleware.ts file in the root directory to execute the logic
+- this is an example of how to redirect a call.
+- note that default approach didnt work with the matcher, see `middleware.ts` file
+
+```
+  export default auth((req) => {
+    if (!req.auth) {
+      return NextResponse.redirect(new URL("/api/auth/signin", req.url));
+    }
+  });
+  export const config = { matcher: ["/users/:path*"] }
+```
+
+#### Database adapter
+
+- using the prisma adapter, see [documentation](https://authjs.dev/getting-started/adapters/prisma)
+- you need to add new models in the `schema.prisma` file for the required data in auth tables
+  - to do a clean transtition, removed all models (user and products) and added the recommended in docs.
+- run `npx prisma migrate dev`
+- session strategy is automatically updated to `database`, so you explicitly set it to: `session: { strategy: 'jwt' }` in the `auth.config` file
+
+###### Credentials adapter
+
+- To allow email and pass login, see [documentation](https://authjs.dev/getting-started/providers/credentials)
+
+###### Fix Bcrypt error NextJS 14 redundancy components.
+
+- see [thread](https://github.com/kelektiv/node.bcrypt.js/issues/979#issuecomment-1949878830)
+- add bcrypt to config.externals like so:
+
+```
+  webpack: (config) => {
+    config.externals = [...config.externals, "bcrypt"];
+    return config;
+  }
+
+  whenever used, require this way:
+  const bcrypt = require("bcrypt");
+  const hashedPassword = await bcrypt.hash(password, 12);
+```
+
+#### Sending Emails in React
+
+- see [documentation](https://react.email/docs/getting-started/manual-setup)
+- run `sudo npm i react-email @react-eamil/components E`
+- added a folder in root: `emails`
+- added `.react-email/` to .gitignore
+- added permission to node_modules dir for server to run locally `sudo chmod -R 777 node_modules/`
+
+###### Configuring Resend
+
+- see the [integrations](https://react.email/docs/integrations/resend)
+- run `npm install resend`
+- create an account in [resend](https://resend.com/overview) - added with ekos.sv@gmail.com
+- add an `api key` and place it in `.env`

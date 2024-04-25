@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import AuthProvider from "./auth/Provider";
 import { Inter } from "next/font/google";
 import NavBar from "./NavBar";
 
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="winter">
       <body className={inter.className}>
-        <NavBar />
-        <main>{children}</main>
+        <AuthProvider>
+          <NavBar />
+          <main>{children}</main>
+        </AuthProvider>
       </body>
     </html>
   );
