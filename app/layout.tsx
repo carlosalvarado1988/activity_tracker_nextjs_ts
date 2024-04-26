@@ -1,11 +1,14 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import AuthProvider from "./auth/Provider";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import NavBar from "./NavBar";
 import { GoogleAnalyticsScript } from "@/GoogleAnalyticsScript";
 
-const inter = Inter({ subsets: ["latin"] });
+const localFontPoppins = localFont({
+  src: "../public/fonts/poppins-regular-webfont.woff2",
+  variable: "--font-poppins",
+});
 
 export const metadata: Metadata = {
   title: "PM Tracking app",
@@ -20,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="winter">
       <GoogleAnalyticsScript />
-      <body className={inter.className}>
+      <body className={localFontPoppins.className}>
         <AuthProvider>
           <NavBar />
           <main>{children}</main>
