@@ -14,22 +14,11 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Learn More
+# Development
 
-To learn more about Next.js, take a look at the following resources:
+#### Source
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-# About Development
+- https://github.com/mosh-hamedani/issue-tracker
 
 #### VSCode libraries
 
@@ -176,6 +165,19 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - downloaded version mysql-8.3.0-macos14-arm64 for mac
 - mysql workbench warning that functions might be limited for latest version db 8.0 and above
 - downloaded [DBeaver Universal Database Tool](https://dbeaver.io/): dbeaver-ce-24.0.3-macos-aarch64
+
+#### Mysql remote instance on aiven
+
+- Created an account in aiven using ekos.sv@gmail.com
+- see [dashboard](https://console.aiven.io/account/a4aca5659fdb/project/ekos-7026/services/mysql-1cb81841/overview)
+- note this connection requires ssl certificate, download the cert.pem from dashboard and use it in DBeaver or any DB GUI.
+- updated in .env to use the cloud remote db
+- run npx prisma migrate dev again to generate modesl in remote db
+  - error during migration, mysql.sql_require_primary_key was set true, this migrations is creating some tables without pk. I had to set it false, but not recommended.
+    - I went to dashboard/settings/advance/mysql.sql_require_primary_key: disabled
+    - migrations completed, confirmed in DBeaver GUI
+    - updated environment variable in vercel for new DATABASE_URL
+    - redeploy site to read new variables in source code
 
 #### Prisma sdetup with NextJS/MySQL
 
