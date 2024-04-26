@@ -403,3 +403,11 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - run `npm install resend`
 - create an account in [resend](https://resend.com/overview) - added with ekos.sv@gmail.com
 - add an `api key` and place it in `.env`
+
+#### Radix UI
+
+- see [documentation](https://www.radix-ui.com/)
+- you will use radix themes
+- run `npm install @radix-ui/themes`
+- add `import '@radix-ui/themes/styles.css';` at the top of the root layout page
+- add `import { Theme } from '@radix-ui/themes';` and wrap the body with the <Theme> component
