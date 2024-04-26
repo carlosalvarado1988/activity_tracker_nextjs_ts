@@ -70,7 +70,7 @@ const NewIssuePage = () => {
 
         <Button disabled={isSubmitting}>
           {/* Submit New Issue {isSubmitting && <Spinner />} */}
-          New Issue
+          Submit New Issue
         </Button>
       </form>
     </section>

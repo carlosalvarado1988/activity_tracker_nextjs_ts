@@ -1,5 +1,7 @@
 import "@radix-ui/themes/styles.css";
+import "./theme-config.css";
 import "./globals.css";
+
 import type { Metadata } from "next";
 import AuthProvider from "./auth/Provider";
 import localFont from "next/font/local";
@@ -25,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="winter">
       <GoogleAnalyticsScript />
-      <body className={localFontPoppins.className}>
+      <body className={localFontPoppins.variable}>
         <Theme appearance="light" accentColor="grass" radius="small">
           <AuthProvider>
             <NavBar />
