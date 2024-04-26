@@ -1,0 +1,6 @@
+/* Because this are imported as properties in JSX, they are declared in camelCase */
+
+.cardContainer {
+  padding: 1rem;
+  border: 1px solid #ccc;
+}

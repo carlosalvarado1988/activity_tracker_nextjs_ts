@@ -33,7 +33,6 @@ const widgetStyles = {
 
 const UploadPage = () => {
   const [publicId, setPublicId] = useState("");
-  console.log("DID WE LOAD? publicId:", publicId);
 
   return (
     <section>

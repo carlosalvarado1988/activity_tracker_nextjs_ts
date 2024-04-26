@@ -7,7 +7,7 @@ interface Props {
 }
 
 export async function GET(request: NextRequest, { params: { id } }: Props) {
-  const user = await prisma.user.findUnique({ where: { id: parseInt(id) } });
+  const user = await prisma.user.findUnique({ where: { id } });
   if (!user)
     return NextResponse.json({ error: "User not fund" }, { status: 404 });
   return NextResponse.json(user);
@@ -19,7 +19,7 @@ export async function PUT(request: NextRequest, { params: { id } }: Props) {
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
-  const user = await prisma.user.findUnique({ where: { id: parseInt(id) } });
+  const user = await prisma.user.findUnique({ where: { id } });
   if (!user)
     return NextResponse.json({ error: "User not fund" }, { status: 404 });
 
@@ -37,7 +37,7 @@ export async function PUT(request: NextRequest, { params: { id } }: Props) {
 }
 
 export async function DELETE(request: NextRequest, { params: { id } }: Props) {
-  const user = await prisma.user.findUnique({ where: { id: parseInt(id) } });
+  const user = await prisma.user.findUnique({ where: { id } });
   if (!user)
     return NextResponse.json({ error: "User not found" }, { status: 404 });
 
