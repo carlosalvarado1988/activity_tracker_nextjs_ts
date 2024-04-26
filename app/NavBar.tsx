@@ -4,8 +4,11 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import { BsBugFill } from "react-icons/bs";
+import classnames from "classnames";
+import { usePathname } from "next/navigation";
 
 const NavBar = () => {
+  const currentPath = usePathname();
   const { status, data: session } = useSession();
   const links = [
     { label: "Dashboard", href: "/" },
@@ -21,7 +24,11 @@ const NavBar = () => {
           <Link
             key={link.href}
             href={link.href}
-            className="text-zinc-500 hover:text-zinc-800 transition-colors"
+            className={classnames({
+              "text-zinc-900": currentPath === link.href,
+              "text-zinc-500": currentPath !== link.href,
+              "hover:text-zinc-800 transition-colors": true,
+            })}
           >
             {link.label}
           </Link>
