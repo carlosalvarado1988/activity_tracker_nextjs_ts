@@ -411,3 +411,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - run `npm install @radix-ui/themes`
 - add `import '@radix-ui/themes/styles.css';` at the top of the root layout page
 - add `import { Theme } from '@radix-ui/themes';` and wrap the body with the <Theme> component
+
+#### Markdown Editor
+
+- [React SimpleMDE (EasyMDE)](https://www.npmjs.com/package/react-simplemde-editor)
+- `npm install --save react-simplemde-editor easymde`
+-

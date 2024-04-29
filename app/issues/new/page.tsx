@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-// import axios from "axios";
 import z from "zod";
-// import { useRouter } from "next/navigation";
-// import dynamic from "next/dynamic";
-// const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
-//   ssr: false,
-// });
+import dynamic from "next/dynamic";
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 import { createIssueSchema } from "@/app/api/utils";
 import { Button, TextField } from "@radix-ui/themes";
+// import axios from "axios";
+// import { useRouter } from "next/navigation";
 // import { useForm, Controller } from "react-hook-form";
 // import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -17,7 +17,7 @@ import { Button, TextField } from "@radix-ui/themes";
 // import { ErrorInlineMessage } from "../../../components/ErrorInlineMessage";
 // import { Spinner } from "../../../components/Spinner";
 
-// import "easymde/dist/easymde.min.css";
+import "easymde/dist/easymde.min.css";
 
 type issueForm = z.infer<typeof createIssueSchema>;
 
@@ -68,6 +68,7 @@ const NewIssuePage = () => {
         />
         <ErrorInlineMessage>{errors.description?.message}</ErrorInlineMessage> */}
 
+        <SimpleMDE id="editor" placeholder="Description" />
         <Button disabled={isSubmitting}>
           {/* Submit New Issue {isSubmitting && <Spinner />} */}
           Submit New Issue
