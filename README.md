@@ -73,6 +73,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - This needs Node and Tailwind to be installed.
 - npm i -D daisyui@latest
 - follow installation instructions `https://daisyui.com/docs/install/`
+  - note, this was removed after by `Radix UI Theme`, equivalent and even more robust
 
 ## Routing NextJS
 
@@ -416,6 +417,23 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 - [React SimpleMDE (EasyMDE)](https://www.npmjs.com/package/react-simplemde-editor)
 - `npm install --save react-simplemde-editor easymde`
+- in order to render the content we need another lib `react-markdown@8.0.7`
+  - note, tailwing configuration disables to read headings and list items by default.
+  - we need to install aditional pluging [@tailwindcss/typography](https://v1.tailwindcss.com/docs/typography-plugin)
+  - [setup](https://github.com/tailwindlabs/tailwindcss-typography) - `npm install -D @tailwindcss/typography`
+  - add this to `tailwind.config.js`
+  ```
+    module.exports = {
+    theme: {
+    // ...
+    },
+    plugins: [
+    require('@tailwindcss/typography'),
+    // ...
+    ],
+    }
+  ```
+  - add `className="prose"` to the markdown element
 
 #### Handling Form submission
 
@@ -424,7 +442,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - using Controller component to wrap elements that do not accept props to merge with the register functionality of react-hook
 - added axios to handled API call.
 - added useRouter from navigator to handle redirect after saving issue.
-- frontend validation with same zod schema, using @hookform/resolvers@3.3.1
+- frontend validation with same zod schema, using `@hookform/resolvers@3.3.1`
 
 #### Adding Skeletons
 
@@ -434,4 +452,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ```
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+
 ```
