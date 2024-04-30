@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { CallOutError } from "../../components/CallOutError";
 import { ErrorInlineMessage } from "../../components/ErrorInlineMessage";
-// import { Spinner } from "../../../components/Spinner";
+import { Spinner } from "../../components/Spinner";
 
 import "easymde/dist/easymde.min.css";
 
@@ -68,8 +68,7 @@ const NewIssuePage = () => {
         <ErrorInlineMessage>{errors.description?.message}</ErrorInlineMessage>
 
         <Button disabled={isSubmitting}>
-          {/* Submit New Issue {isSubmitting && <Spinner />} */}
-          Submit New Issue
+          Submit New Issue {isSubmitting && <Spinner />}
         </Button>
       </form>
     </section>
