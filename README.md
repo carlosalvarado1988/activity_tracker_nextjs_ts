@@ -416,4 +416,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 - [React SimpleMDE (EasyMDE)](https://www.npmjs.com/package/react-simplemde-editor)
 - `npm install --save react-simplemde-editor easymde`
--
+
+#### Handling Form submission
+
+- [React hook form](https://react-hook-form.com/)
+- `npm install react-hook-form@7.46.1`
+- using Controller component to wrap elements that do not accept props to merge with the register functionality of react-hook
+- added axios to handled API call.
+- added useRouter from navigator to handle redirect after saving issue.
+- frontend validation with same zod schema, using @hookform/resolvers@3.3.1
