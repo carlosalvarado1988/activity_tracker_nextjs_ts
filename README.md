@@ -425,3 +425,13 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - added axios to handled API call.
 - added useRouter from navigator to handle redirect after saving issue.
 - frontend validation with same zod schema, using @hookform/resolvers@3.3.1
+
+#### Adding Skeletons
+
+- to keep consistency in loading pages
+- add skeloton elements in each instance to load data
+
+```
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+```
