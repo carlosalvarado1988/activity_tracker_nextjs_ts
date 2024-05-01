@@ -454,3 +454,10 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 ```
+
+#### Link elements: combining RadixUI Link element with next/link functionality
+
+- you create a custom component
+- after mix the component, got this error: `Invalid <Link> with <a> child. Please remove <a> or use <Link legacyBehavior>.`
+- see [docs](https://nextjs.org/docs/app/api-reference/components/link#if-the-child-is-a-custom-component-that-wraps-an-a-tag)
+- you need to pass `<Link href={href} passHref legacyBehavior>` the extra params.

@@ -23,8 +23,8 @@ const IssueDetailsPage = async ({ params }: Props) => {
         <IssueStatusBadge status={issue.status} />
         <Text>{issue.createdAt.toDateString()}</Text>
       </Flex>
-      <Card mb="3">
-        <ReactMarkdown className="prose">{issue.description}</ReactMarkdown>
+      <Card className="prose" mb="3">
+        <ReactMarkdown>{issue.description}</ReactMarkdown>
       </Card>
       <Link href={"/issues"}>
         <Button>Back</Button>
