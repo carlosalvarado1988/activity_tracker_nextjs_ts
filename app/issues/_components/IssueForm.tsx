@@ -1,6 +1,6 @@
 "use client";
 
-import { createIssueSchema } from "@/app/api/utils";
+import { issueSchema } from "@/app/api/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, TextField } from "@radix-ui/themes";
 import axios from "axios";
@@ -17,7 +17,7 @@ import "easymde/dist/easymde.min.css";
 import { CallOutError, ErrorInlineMessage, Spinner } from "../../components";
 import { Issue } from "@prisma/client";
 
-type issueFormData = z.infer<typeof createIssueSchema>;
+type issueFormData = z.infer<typeof issueSchema>;
 
 export const IssueForm = ({ issue }: { issue?: Issue }) => {
   const router = useRouter();
@@ -30,14 +30,14 @@ export const IssueForm = ({ issue }: { issue?: Issue }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<issueFormData>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(issueSchema),
   });
 
   const onSubmit = handleSubmit(async (data) => {
     try {
       setIsSubmitting(true);
       if (issue?.id) {
-        await axios.put(`/api/issues/${issue?.id}`, data);
+        await axios.patch(`/api/issues/${issue?.id}`, data);
       } else {
         await axios.post("/api/issues", data);
       }
@@ -76,7 +76,7 @@ export const IssueForm = ({ issue }: { issue?: Issue }) => {
         <ErrorInlineMessage>{errors.description?.message}</ErrorInlineMessage>
 
         <Button disabled={isSubmitting}>
-          {issue?.title ? `Edit` : `Submit New`} Issue
+          {issue?.title ? `Edit Issue` : `Submit New Issue`}
           {isSubmitting && <Spinner />}
         </Button>
       </form>
