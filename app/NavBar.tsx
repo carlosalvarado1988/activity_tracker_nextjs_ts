@@ -12,7 +12,7 @@ const NavBar = () => {
   const { status, data: session } = useSession();
   const links = [
     { label: "Dashboard", href: "/" },
-    { label: "Issues", href: "/issues" },
+    { label: "Issues", href: "/issues/list" },
   ];
   return (
     <nav className="flex space-x-6 bg-slate-200 mb-3 border-b px-5 h-14 items-center">
