@@ -45,4 +45,7 @@ const IssuesPage = async () => {
   );
 };
 
+// a server cache feature to force dynamic updates
+export const dynamic = "force-dynamic";
+
 export default IssuesPage;

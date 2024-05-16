@@ -47,6 +47,24 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - you can also set a deterministic time, like {nex: {revalidate: 10}} --> being 10 seconds
 - other libraries like axios do not bring this cache functionality out of the box and need more custom configuration
 
+###### Disabling caching in static route strategies
+
+- [nextjs route segment config](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config)
+- you export variables that nextjs engine reads to determine cache handling.
+- server cache (data) and client cache (layout) are different.
+- `export const revalidate = 0; export const dynamic = "force-dynamic"`
+- Caching types:
+
+  - Data cache: to store the result of fetch().
+  - Full Route cache: to store output of static routes.
+  - router cache (client side cache): to store the payload of pages in browser.
+    - Automatic invalidation:
+    - static routes: are cached for 5 min.
+    - dynamic routes: are cached for 30secs. Meaning new data changes will be seen only after 30secs after a refresh.
+      - We can force the router to refresh the page. `router.refresh()`
+
+-
+
 ## Rendering with nextjS
 
 ![Rendering](readme_imgs/rendering.png)
@@ -465,3 +483,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 - after mix the component, got this error: `Invalid <Link> with <a> child. Please remove <a> or use <Link legacyBehavior>.`
 - see [docs](https://nextjs.org/docs/app/api-reference/components/link#if-the-child-is-a-custom-component-that-wraps-an-a-tag)
 - you need to pass `<Link href={href} passHref legacyBehavior>` the extra params.
+
+#### last video:
+
+5. updating issues.mp4
