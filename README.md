@@ -14,6 +14,10 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+# Production site
+
+[https://activity-tracker-nextjs-ts.vercel.app/](https://activity-tracker-nextjs-ts.vercel.app/)
+
 # Development
 
 #### Source
