@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import ProductCard from "./components/ProductCard";
+import { ProductCard } from "./components";
 import Link from "next/link";
 
 export default async function Home() {

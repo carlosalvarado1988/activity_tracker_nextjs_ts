@@ -14,9 +14,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 });
 
 import "easymde/dist/easymde.min.css";
-import { CallOutError } from "../../components/CallOutError";
-import { ErrorInlineMessage } from "../../components/ErrorInlineMessage";
-import { Spinner } from "../../components/Spinner";
+import { CallOutError, ErrorInlineMessage, Spinner } from "../../components";
 
 type issueForm = z.infer<typeof createIssueSchema>;
 
