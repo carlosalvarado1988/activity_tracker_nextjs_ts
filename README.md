@@ -63,7 +63,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
     - dynamic routes: are cached for 30secs. Meaning new data changes will be seen only after 30secs after a refresh.
       - We can force the router to refresh the page. `router.refresh()`
 
--
+- Note: All this caching behaviour act differently in prod, after the build is created, rather than in dev mode. so diligently check the build behavior
 
 ## Rendering with nextjS
 

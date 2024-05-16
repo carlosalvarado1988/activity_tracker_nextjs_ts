@@ -4,22 +4,19 @@ import { issueSchema } from "@/app/api/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, TextField } from "@radix-ui/themes";
 import axios from "axios";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import SimpleMDE from "react-simplemde-editor";
 import z from "zod";
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
-  ssr: false,
-});
 
+import { Issue } from "@prisma/client";
 import "easymde/dist/easymde.min.css";
 import { CallOutError, ErrorInlineMessage, Spinner } from "../../components";
-import { Issue } from "@prisma/client";
 
 type issueFormData = z.infer<typeof issueSchema>;
 
-export const IssueForm = ({ issue }: { issue?: Issue }) => {
+const IssueForm = ({ issue }: { issue?: Issue }) => {
   const router = useRouter();
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,8 +51,6 @@ export const IssueForm = ({ issue }: { issue?: Issue }) => {
     <section className="max-w-xl space-y-3">
       {error && <CallOutError message={error} />}
 
-      <h1>Create a New Issue</h1>
-
       <form className="space-y-3" onSubmit={onSubmit}>
         <TextField.Root
           placeholder="Title"
@@ -84,3 +79,5 @@ export const IssueForm = ({ issue }: { issue?: Issue }) => {
     </section>
   );
 };
+
+export default IssueForm;
