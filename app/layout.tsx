@@ -3,7 +3,8 @@ import "./theme-config.css";
 import "./globals.css";
 
 import type { Metadata } from "next";
-import AuthProvider from "./auth/Provider";
+import { AuthProvider } from "./providers/AuthProvider";
+import { QueryClientProvider } from "./providers/QueryClientProvider";
 import localFont from "next/font/local";
 import { NavBar } from "./NavBar";
 import { Theme } from "@radix-ui/themes";
@@ -28,12 +29,14 @@ export default function RootLayout({
     <html lang="en" data-theme="winter">
       <GoogleAnalyticsScript />
       <body className={localFontPoppins.variable}>
-        <Theme appearance="light" accentColor="grass" radius="small">
-          <AuthProvider>
-            <NavBar />
-            <main>{children}</main>
-          </AuthProvider>
-        </Theme>
+        <QueryClientProvider>
+          <Theme appearance="light" accentColor="grass" radius="small">
+            <AuthProvider>
+              <NavBar />
+              <main>{children}</main>
+            </AuthProvider>
+          </Theme>
+        </QueryClientProvider>
       </body>
     </html>
   );

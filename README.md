@@ -503,6 +503,29 @@ import "react-loading-skeleton/dist/skeleton.css";
 - see [docs](https://nextjs.org/docs/app/api-reference/components/link#if-the-child-is-a-custom-component-that-wraps-an-a-tag)
 - you need to pass `<Link href={href} passHref legacyBehavior>` the extra params.
 
+## Provider
+
+#### [TankStack Query v5](https://tanstack.com/query/latest) - ReactQuery
+
+- making fetch with useEffect and axios or fetch is not efficient, error handling and coming back to the page generates a new query each time
+- we need to leverage caching, when we get data as lists, data that we dont need to re-fetch, unless its updated.
+- for this approach you need a wrapper, query provider.
+- look at the QueryClientProvider.tsx file
+- usage in client components:
+
+```
+  const {
+    data: users,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: () => axios.get<User[]>("/api/users").then((res) => res.data),
+    staleTime: 60 * 1000, // 60s
+    retry: 3,
+  });
+```
+
 # last video:
 
 to start authentication folder
