@@ -36,7 +36,6 @@ export default {
           user.hashedPassword!
         );
         return passwordsMatched ? user : null;
-        // return user;
       },
     }),
   ],

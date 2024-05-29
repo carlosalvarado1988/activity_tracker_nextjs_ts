@@ -2,7 +2,7 @@
 
 import { issueSchema } from "@/app/api/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, TextField } from "@radix-ui/themes";
+import { Container, Button, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -48,35 +48,37 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
   });
 
   return (
-    <section className="max-w-xl space-y-3">
-      {error && <CallOutError message={error} />}
+    <Container>
+      <section className="max-w-xl space-y-3">
+        {error && <CallOutError message={error} />}
 
-      <form className="space-y-3" onSubmit={onSubmit}>
-        <TextField.Root
-          placeholder="Title"
-          defaultValue={issue?.title}
-          {...register("title")}
-        >
-          <TextField.Slot />
-        </TextField.Root>
-        <ErrorInlineMessage>{errors.title?.message}</ErrorInlineMessage>
+        <form className="space-y-3" onSubmit={onSubmit}>
+          <TextField.Root
+            placeholder="Title"
+            defaultValue={issue?.title}
+            {...register("title")}
+          >
+            <TextField.Slot />
+          </TextField.Root>
+          <ErrorInlineMessage>{errors.title?.message}</ErrorInlineMessage>
 
-        <Controller
-          name="description"
-          control={control}
-          defaultValue={issue?.description}
-          render={({ field }) => (
-            <SimpleMDE id="editor" placeholder="Description" {...field} />
-          )}
-        />
-        <ErrorInlineMessage>{errors.description?.message}</ErrorInlineMessage>
+          <Controller
+            name="description"
+            control={control}
+            defaultValue={issue?.description}
+            render={({ field }) => (
+              <SimpleMDE id="editor" placeholder="Description" {...field} />
+            )}
+          />
+          <ErrorInlineMessage>{errors.description?.message}</ErrorInlineMessage>
 
-        <Button disabled={isSubmitting}>
-          {issue?.title ? `Edit Issue` : `Submit New Issue`}
-          {isSubmitting && <Spinner />}
-        </Button>
-      </form>
-    </section>
+          <Button disabled={isSubmitting}>
+            {issue?.title ? `Edit Issue` : `Submit New Issue`}
+            {isSubmitting && <Spinner />}
+          </Button>
+        </form>
+      </section>
+    </Container>
   );
 };
 
