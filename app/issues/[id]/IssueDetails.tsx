@@ -16,7 +16,7 @@ export const IssueDetails = ({ issue }: { issue: Issue }) => {
         <ReactMarkdown>{issue.description}</ReactMarkdown>
       </Card>
 
-      <Link href={"/issues"}>
+      <Link href={"/issues/list"}>
         <Button>Back</Button>
       </Link>
     </>

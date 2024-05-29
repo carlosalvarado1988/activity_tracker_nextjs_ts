@@ -7,7 +7,13 @@ import { Skeleton } from "@/app/components";
 import { User } from "@prisma/client";
 import axios from "axios";
 
-export const AsigneeSelect = () => {
+export const AsigneeSelect = ({
+  issueId,
+  assignedToUserId,
+}: {
+  issueId: number;
+  assignedToUserId?: string;
+}) => {
   /* 
   Kept this here for visibility, a best practice is to use the useQuery with provider wrapper
   to leverage cache (staleTime) and retry options.
@@ -40,11 +46,23 @@ export const AsigneeSelect = () => {
   if (error) return null;
 
   return (
-    <Select.Root>
+    <Select.Root
+      defaultValue={assignedToUserId || undefined}
+      onValueChange={(userId) => {
+        try {
+          axios.patch(`/api/issues/${issueId}`, {
+            assignedToUserId: userId == "unassigned" ? null : userId,
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      }}
+    >
       <Select.Trigger placeholder="Assign..." />
       <Select.Content>
         <Select.Group>
           <Select.Label>Suggestions</Select.Label>
+          <Select.Item value="unassigned">Unassigned</Select.Item>
           {users?.map((user) => (
             <Select.Item key={user.id} value={user.id}>
               {user.name}
