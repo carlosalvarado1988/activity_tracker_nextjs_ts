@@ -225,15 +225,35 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - whenever we change or add a model, we need to run the prisma migration: `npx prisma migrate dev`
   - eg: adding to a model: `registeredAt DateTime @default(now())`
 
+#### Prisma - table relationships
+
+- chekign the example about assignedUserId to an issue, you modify the prisma models.
+- Issue model additions:
+
+```
+  assignedToUserId String? @db.Char(255)
+  assignedToUser User? @relation(fields: [assignedToUserId], references: [id])
+```
+
+- User model additions:
+
+```
+assignedIssues Issue[]
+```
+
+The run the migration: `npx prisma migrate dev`
+
 #### Prisma Client Instance
 
 - added @prisma/client in npm packages
 - created the prisma client instance to be using in the code
 
 ```
-  import { PrismaClient } from "@prisma/client";
-  const prisma = new PrismaClient();
-  export default prisma;
+
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+export default prisma;
+
 ```
 
 - note: to use Prisma client instance in development for nextjs (because it reloads twice), we need to add additional code to prevent the refresh to create too many instances in every import in dev mode.
@@ -257,6 +277,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
       - added: activity_tracking_app folder
 
 ```
+
   <CldUploadWidget uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}>
     {({ open }) => (
         <button className="btn btn-primary" onClick={() => open()}>
