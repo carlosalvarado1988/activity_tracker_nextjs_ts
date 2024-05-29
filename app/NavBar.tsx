@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/app/components";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
@@ -13,6 +14,7 @@ import {
   DropdownMenu,
   Flex,
   Text,
+  Spinner,
 } from "@radix-ui/themes";
 
 /*
@@ -22,7 +24,7 @@ import {
 
 export const NavBar = () => {
   return (
-    <nav className="bg-slate-200 mb-3 border-b px-5 py-3">
+    <nav className="border-b px-5 py-3  bg-slate-100">
       <Container>
         <Flex justify="between">
           <Flex align="center" gap="3">
@@ -84,7 +86,7 @@ const AuthSession = () => {
       </Link>
     );
 
-  if (status === "loading") return <div>Loading ...</div>;
+  if (status === "loading") return <Skeleton width="2rem" height="1.5rem" />;
 
   return (
     <Box>

@@ -331,8 +331,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 - now you can access session information from anywhere in the app
 - wherever you access session data, you need to convert the component to client component
+- use this to access session from client component
 
-###### Accessing session from the server
+```
+  import { useSession } from "next-auth/react";
+  const { status, data: session } = useSession();
+
+```
+
+###### Accessing session from the server (components and routes)
 
 - un SRC (server rendered components) load the following
 
@@ -381,7 +388,19 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
       return NextResponse.redirect(new URL("/api/auth/signin", req.url));
     }
   });
-  export const config = { matcher: ["/users/:path*"] }
+  export const config = { matcher: ["/issues/list"] }
+```
+
+#### Protecting Endpoints
+
+- a god practice is to protect routes that modify data but not those that read data (some cases)
+- if we use the route middleware, the entire route would be protected, so in the api layer
+  we want to protect by the operation level. (PUT, DELETE, POST)
+  - Adding session checkers in the Request itself
+
+```
+  const session = await auth();
+  if (!session) return NextResponse.json({}, {status: 401})
 ```
 
 #### Database adapter
@@ -484,6 +503,6 @@ import "react-loading-skeleton/dist/skeleton.css";
 - see [docs](https://nextjs.org/docs/app/api-reference/components/link#if-the-child-is-a-custom-component-that-wraps-an-a-tag)
 - you need to pass `<Link href={href} passHref legacyBehavior>` the extra params.
 
-#### last video:
+# last video:
 
-5. updating issues.mp4
+to start authentication folder
