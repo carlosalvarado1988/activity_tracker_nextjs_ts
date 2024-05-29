@@ -5,7 +5,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import AuthProvider from "./auth/Provider";
 import localFont from "next/font/local";
-import NavBar from "./NavBar";
+import { NavBar } from "./NavBar";
 import { Theme } from "@radix-ui/themes";
 import { GoogleAnalyticsScript } from "@/GoogleAnalyticsScript";
 
