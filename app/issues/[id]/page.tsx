@@ -1,12 +1,12 @@
-import prisma from "@/prisma/client";
-import { Container, Box, Grid, Flex } from "@radix-ui/themes";
 import { auth } from "@/auth";
+import prisma from "@/prisma/client";
+import { Box, Container, Flex, Grid } from "@radix-ui/themes";
 
 import { notFound } from "next/navigation";
+import { AsigneeSelect } from "./AsigneeSelect";
+import { DeleteIssueButton } from "./DeleteIssueButton";
 import { EditIssueButton } from "./EditIssueButton";
 import { IssueDetails } from "./IssueDetails";
-import { DeleteIssueButton } from "./DeleteIssueButton";
-import { AsigneeSelect } from "./AsigneeSelect";
 
 interface Props {
   params: { id: string };
@@ -15,6 +15,7 @@ interface Props {
 const IssueDetailsPage = async ({ params }: Props) => {
   const session = await auth();
   if (typeof parseInt(params.id) !== "number") notFound();
+
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(params.id) },
   });
@@ -45,5 +46,9 @@ const IssueDetailsPage = async ({ params }: Props) => {
     </Container>
   );
 };
+
+// a server cache feature to force dynamic updates
+// currently not working
+export const dynamic = "force-dynamic";
 
 export default IssueDetailsPage;

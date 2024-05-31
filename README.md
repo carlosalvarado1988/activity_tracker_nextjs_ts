@@ -549,4 +549,5 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 # last video:
 
+need to fix refresh issue when navigating back in assign issue details page
 to start authentication folder
