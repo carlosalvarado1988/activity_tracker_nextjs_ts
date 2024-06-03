@@ -547,7 +547,26 @@ import "react-loading-skeleton/dist/skeleton.css";
   });
 ```
 
-# last video:
+#### Sorting on columns.
 
-need to fix refresh issue when navigating back in assign issue details page
-to start authentication folder
+- you implement a searchparam from the column clicked.
+
+```
+  <NextLink
+    href={{
+      query: { ...searchParams, orderBy: "name" },
+    }}
+  >
+    Name
+  </NextLink>
+```
+
+- the ` query: { ...searchParams, orderBy: "name" },` cares to update and keep any other searchParam in the query
+- NextLink is used to differenciate the color.
+
+# continue with:
+
+- 4. Sorting issues
+- Todo:
+  - need to fix refresh issue when navigating back in assign issue details page
+  - issue with cache for avatar icon, not displaying submenu options
