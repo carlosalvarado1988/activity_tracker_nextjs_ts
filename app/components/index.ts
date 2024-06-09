@@ -9,3 +9,4 @@ export { CallOutError } from "./CallOutError";
 export { ErrorInlineMessage } from "./ErrorInlineMessage";
 export { IssueStatusBadge } from "./IssueStatusBadge";
 export { Spinner } from "./Spinner";
+export { Pagination } from "./Pagination";

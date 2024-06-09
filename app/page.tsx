@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { ProductCard } from "./components";
+import { ProductCard, Pagination } from "./components";
 import Link from "next/link";
 import { Container } from "@radix-ui/themes";
 
@@ -19,6 +19,7 @@ export default async function Home() {
         <p>{session.user.name}</p>
         <Link href="/api/server_logout">Logout from server</Link>
         <ProductCard />
+        <Pagination itemCount={100} pageSize={10} currentPage={10} />
       </section>
     </Container>
   );

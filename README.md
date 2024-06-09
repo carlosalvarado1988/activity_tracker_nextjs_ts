@@ -564,6 +564,35 @@ import "react-loading-skeleton/dist/skeleton.css";
 - the ` query: { ...searchParams, orderBy: "name" },` cares to update and keep any other searchParam in the query
 - NextLink is used to differenciate the color.
 
+###### Generating Dummy data for issues
+
+- using chatGPT to generate SQL statemens:
+
+```
+INSERT INTO Issue (title, description, status, createdAt, updatedAt) VALUES
+('Login Issue', 'Users are unable to login using their credentials.', 'OPEN', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('Payment Gateway Down', 'The payment gateway is currently down, causing transaction failures.', 'IN_PROGRESS', '2024-01-02 12:30:00', '2024-01-02 14:00:00'),
+('UI Bug on Dashboard', 'Dashboard displays incorrect data for sales figures.', 'CLOSED', '2024-01-03 09:15:00', '2024-01-04 11:45:00'),
+('Email Notifications Not Sent', 'Users are not receiving email notifications after registration.', 'OPEN', '2024-01-04 08:45:00', '2024-01-04 08:45:00'),
+('Slow Page Load', 'The homepage takes too long to load.', 'IN_PROGRESS', '2024-01-05 11:00:00', '2024-01-05 13:30:00'),
+('Broken Link on Help Page', 'There is a broken link on the help page.', 'CLOSED', '2024-01-06 14:00:00', '2024-01-07 16:20:00'),
+('Database Timeout Error', 'Database queries are timing out during peak hours.', 'OPEN', '2024-01-07 15:10:00', '2024-01-07 15:10:00'),
+('Password Reset Issue', 'Users cannot reset their passwords.', 'IN_PROGRESS', '2024-01-08 07:50:00', '2024-01-08 09:20:00'),
+('Profile Picture Upload Failed', 'Users are unable to upload profile pictures.', 'CLOSED', '2024-01-09 10:05:00', '2024-01-10 12:30:00'),
+('Search Functionality Broken', 'Search results are not displaying correctly.', 'OPEN', '2024-01-10 09:25:00', '2024-01-10 09:25:00'),
+('API Rate Limit Exceeded', 'Clients are hitting the API rate limit frequently.', 'IN_PROGRESS', '2024-01-11 11:40:00', '2024-01-11 14:50:00'),
+('Localization Issue', 'Some UI texts are not localized correctly.', 'CLOSED', '2024-01-12 13:15:00', '2024-01-13 15:00:00'),
+('Billing Information Missing', 'Billing information is not being saved.', 'OPEN', '2024-01-13 14:45:00', '2024-01-13 14:45:00'),
+('Data Sync Error', 'Data synchronization between services is failing.', 'IN_PROGRESS', '2024-01-14 07:20:00', '2024-01-14 09:00:00'),
+('Incorrect Error Messages', 'Users receive incorrect error messages on failed actions.', 'CLOSED', '2024-01-15 10:30:00', '2024-01-16 11:45:00'),
+('File Download Issue', 'Files are not downloading correctly from the server.', 'OPEN', '2024-01-16 08:15:00', '2024-01-16 08:15:00'),
+('Broken Image Links', 'Some images are not loading on the product pages.', 'IN_PROGRESS', '2024-01-17 11:00:00', '2024-01-17 13:30:00'),
+('Cart Update Error', 'Users are unable to update their cart items.', 'CLOSED', '2024-01-18 14:10:00', '2024-01-19 16:20:00'),
+('Session Expiry Issue', 'User sessions are expiring too quickly.', 'OPEN', '2024-01-19 15:35:00', '2024-01-19 15:35:00'),
+('Notifications Delayed', 'Push notifications are delayed by several hours.', 'IN_PROGRESS', '2024-01-20 07:50:00', '2024-01-20 09:20:00');
+
+```
+
 # continue with:
 
 - 4. Sorting issues
