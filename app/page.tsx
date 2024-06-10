@@ -3,7 +3,11 @@ import { ProductCard, Pagination } from "./components";
 import Link from "next/link";
 import { Container } from "@radix-ui/themes";
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { page: string };
+}) {
   const session = await auth();
   if (!session?.user)
     return (
@@ -19,7 +23,11 @@ export default async function Home() {
         <p>{session.user.name}</p>
         <Link href="/api/server_logout">Logout from server</Link>
         <ProductCard />
-        <Pagination itemCount={100} pageSize={10} currentPage={10} />
+        <Pagination
+          itemCount={100}
+          pageSize={10}
+          currentPage={parseInt(searchParams.page)}
+        />
       </section>
     </Container>
   );
