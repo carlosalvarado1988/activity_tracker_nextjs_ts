@@ -593,6 +593,10 @@ INSERT INTO Issue (title, description, status, createdAt, updatedAt) VALUES
 
 ```
 
+#### Adding charts to the dashboard
+
+- we use [https://recharts.org/en-US/](https://recharts.org/en-US/)
+
 # continue with:
 
 - 4. Sorting issues
