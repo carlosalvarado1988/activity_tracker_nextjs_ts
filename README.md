@@ -651,7 +651,12 @@ INSERT INTO Issue (title, description, status, createdAt, updatedAt) VALUES
   - paste it in your root, and rename it from txt to py. eg. `git-filter-repo.py`
   - run the file using python3
     - command: `python3 git-filter-repo.py --path .env --invert-paths --force`
-  -
+
+#### Error tracking - sentry.io
+
+- create an account - `ekos.sv@gmail.com - 15 days trial on 6.24.24`
+- install sdk by framework: `npx @sentry/wizard@latest -i nextjs`
+- commit changes
 
 # continue with:
 
