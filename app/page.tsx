@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { Container } from "@radix-ui/themes";
+import { Container, Grid, Flex } from "@radix-ui/themes";
 import { LatestIssues } from "./LatestIssues";
 import { IssueSummary } from "./IssueSummary";
 import { IssueCharts } from "./IssueCharts";
@@ -29,17 +29,21 @@ export default async function Home() {
   return (
     <Container>
       <section>
-        <IssueSummary
-          open={openIssues}
-          inProgress={inProgressIssues}
-          closed={closedIssues}
-        />
-        <IssueCharts
-          open={openIssues}
-          inProgress={inProgressIssues}
-          closed={closedIssues}
-        />
-        <LatestIssues />
+        <Grid columns={{ initial: "1", md: "2" }} gap="5">
+          <Flex direction="column" gap="5">
+            <IssueSummary
+              open={openIssues}
+              inProgress={inProgressIssues}
+              closed={closedIssues}
+            />
+            <IssueCharts
+              open={openIssues}
+              inProgress={inProgressIssues}
+              closed={closedIssues}
+            />
+          </Flex>
+          <LatestIssues />
+        </Grid>
       </section>
     </Container>
   );

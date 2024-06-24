@@ -7,7 +7,7 @@ import { AuthProvider } from "./providers/AuthProvider";
 import { QueryClientProvider } from "./providers/QueryClientProvider";
 import localFont from "next/font/local";
 import { NavBar } from "./NavBar";
-import { Theme } from "@radix-ui/themes";
+import { Theme, Container } from "@radix-ui/themes";
 import { GoogleAnalyticsScript } from "@/GoogleAnalyticsScript";
 
 const localFontPoppins = localFont({
@@ -33,7 +33,14 @@ export default function RootLayout({
           <Theme appearance="light" accentColor="grass" radius="small">
             <AuthProvider>
               <NavBar />
-              <main>{children}</main>
+              <main>
+                {/* <Container>
+                  <section> */}
+                {children}
+
+                {/* </section>
+                </Container> */}
+              </main>
             </AuthProvider>
           </Theme>
         </QueryClientProvider>
