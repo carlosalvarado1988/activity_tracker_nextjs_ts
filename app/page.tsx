@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import type { Metadata } from "next";
 import { Container, Grid, Flex } from "@radix-ui/themes";
 import { LatestIssues } from "./LatestIssues";
 import { IssueSummary } from "./IssueSummary";
@@ -48,3 +49,8 @@ export default async function Home() {
     </Container>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - Dashboard",
+  description: "View a summary of project issues",
+};

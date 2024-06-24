@@ -597,6 +597,35 @@ INSERT INTO Issue (title, description, status, createdAt, updatedAt) VALUES
 
 - we use [https://recharts.org/en-US/](https://recharts.org/en-US/)
 
+#### adding proper metadata
+
+- adding specific title page for each tab
+- at a minimun add title and description, but its a good practice to add openGraph and social media links
+- constant metadata:
+
+```
+  export const metadata: Metadata = {
+    title: "Issue Tracker - Dashboard",
+    description: "View a summary of project issues",
+  };
+
+```
+
+- dynamic metadata:
+
+```
+  export async function generateMetadata({ params }: Props) {
+    const issue = await prisma.issue.findUnique({
+      where: { id: parseInt(params.id) },
+    });
+
+    return {
+      title: issue?.title,
+      description: `Description of Issue #${issue?.id}`,
+    };
+  }
+```
+
 # continue with:
 
 - 4. Sorting issues
