@@ -626,6 +626,21 @@ INSERT INTO Issue (title, description, status, createdAt, updatedAt) VALUES
   }
 ```
 
+#### Improving performance - react cache for fetching data
+
+- one use case is the details page, making two prisma calls to get the issue by id.
+- we use the cache from react to make 1 call and reuse the data.
+
+```
+  import { cache } from "react";
+
+  const fetchUser = cache((issueId: number) =>
+    prisma.issue.findUnique({
+      where: { id: issueId },
+    })
+  );
+```
+
 # continue with:
 
 - 4. Sorting issues
