@@ -22,6 +22,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 #### Source
 
+- [https://github.com/carlosalvarado1988/activity_tracker_nextjs_ts](https://github.com/carlosalvarado1988/activity_tracker_nextjs_ts)
+
 - https://github.com/mosh-hamedani/issue-tracker
 
 #### VSCode libraries
@@ -640,6 +642,16 @@ INSERT INTO Issue (title, description, status, createdAt, updatedAt) VALUES
     })
   );
 ```
+
+#### Removing .env from history if accidentally commited to github.
+
+- if accidentally commited, this needs to be removed from the history for security purposes
+- you can go ahead to use [git-filter-repo](https://github.com/newren/git-filter-repo)
+- download this python file [git-filter-repo](https://github.com/newren/git-filter-repo/blob/main/git-filter-repo)
+  - paste it in your root, and rename it from txt to py. eg. `git-filter-repo.py`
+  - run the file using python3
+    - command: `python3 git-filter-repo.py --path .env --invert-paths --force`
+  -
 
 # continue with:
 
