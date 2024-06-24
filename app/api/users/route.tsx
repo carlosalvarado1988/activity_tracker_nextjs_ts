@@ -3,7 +3,7 @@ import prisma from "@/prisma/client";
 import { UserSchema } from "./schema";
 
 export async function GET(request: NextRequest) {
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany({ orderBy: { name: "desc" } });
   return NextResponse.json(users);
 }
 

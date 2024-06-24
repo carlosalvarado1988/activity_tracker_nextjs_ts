@@ -2,6 +2,7 @@ import type { NextAuthConfig } from "next-auth";
 import prisma from "@/prisma/client";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Google from "next-auth/providers/google";
+import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 
 export default {
@@ -11,6 +12,10 @@ export default {
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+    GitHub({
+      clientId: process.env.AUTH_GITHUB_ID,
+      clientSecret: process.env.AUTH_GITHUB_SECRET,
     }),
     Credentials({
       name: "Credentials",
@@ -36,7 +41,6 @@ export default {
           user.hashedPassword!
         );
         return passwordsMatched ? user : null;
-        // return user;
       },
     }),
   ],

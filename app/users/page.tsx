@@ -1,31 +1,9 @@
-import React, { Suspense } from "react";
-import UserTable from "./UserTable";
-import Link from "next/link";
+import React from "react";
 
-export interface SortUsersBy {
-  sortOrder: "name" | "email";
-}
-
-interface Props {
-  searchParams: SortUsersBy;
-}
-
-const UsersPage = ({ searchParams: { sortOrder } }: Props) => {
+const UsersPage = () => {
   return (
     <section>
-      <h1>Users</h1>
-      <Link href="users/new" className="btn mb-3">
-        New User
-      </Link>
-      <Suspense
-        fallback={
-          <div>
-            <span className="loading loading-bars loading-sm"></span>
-          </div>
-        }
-      >
-        <UserTable sortOrder={sortOrder} />
-      </Suspense>
+      <h1>Users Page</h1>
     </section>
   );
 };

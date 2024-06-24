@@ -14,9 +14,15 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+# Production site
+
+[https://activity-tracker-nextjs-ts.vercel.app/](https://activity-tracker-nextjs-ts.vercel.app/)
+
 # Development
 
 #### Source
+
+- [https://github.com/carlosalvarado1988/activity_tracker_nextjs_ts](https://github.com/carlosalvarado1988/activity_tracker_nextjs_ts)
 
 - https://github.com/mosh-hamedani/issue-tracker
 
@@ -42,6 +48,24 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - you add a second param to the fetch call, usually its enabled, you can disable it using { cache: 'no-store' }, for data that changes frequently.
 - you can also set a deterministic time, like {nex: {revalidate: 10}} --> being 10 seconds
 - other libraries like axios do not bring this cache functionality out of the box and need more custom configuration
+
+###### Disabling caching in static route strategies
+
+- [nextjs route segment config](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config)
+- you export variables that nextjs engine reads to determine cache handling.
+- server cache (data) and client cache (layout) are different.
+- `export const revalidate = 0; export const dynamic = "force-dynamic"`
+- Caching types:
+
+  - Data cache: to store the result of fetch().
+  - Full Route cache: to store output of static routes.
+  - router cache (client side cache): to store the payload of pages in browser.
+    - Automatic invalidation:
+    - static routes: are cached for 5 min.
+    - dynamic routes: are cached for 30secs. Meaning new data changes will be seen only after 30secs after a refresh.
+      - We can force the router to refresh the page. `router.refresh()`
+
+- Note: All this caching behaviour act differently in prod, after the build is created, rather than in dev mode. so diligently check the build behavior
 
 ## Rendering with nextjS
 
@@ -73,6 +97,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - This needs Node and Tailwind to be installed.
 - npm i -D daisyui@latest
 - follow installation instructions `https://daisyui.com/docs/install/`
+  - note, this was removed after by `Radix UI Theme`, equivalent and even more robust
 
 ## Routing NextJS
 
@@ -202,15 +227,35 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - whenever we change or add a model, we need to run the prisma migration: `npx prisma migrate dev`
   - eg: adding to a model: `registeredAt DateTime @default(now())`
 
+#### Prisma - table relationships
+
+- chekign the example about assignedUserId to an issue, you modify the prisma models.
+- Issue model additions:
+
+```
+  assignedToUserId String? @db.Char(255)
+  assignedToUser User? @relation(fields: [assignedToUserId], references: [id])
+```
+
+- User model additions:
+
+```
+assignedIssues Issue[]
+```
+
+The run the migration: `npx prisma migrate dev`
+
 #### Prisma Client Instance
 
 - added @prisma/client in npm packages
 - created the prisma client instance to be using in the code
 
 ```
-  import { PrismaClient } from "@prisma/client";
-  const prisma = new PrismaClient();
-  export default prisma;
+
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+export default prisma;
+
 ```
 
 - note: to use Prisma client instance in development for nextjs (because it reloads twice), we need to add additional code to prevent the refresh to create too many instances in every import in dev mode.
@@ -234,6 +279,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
       - added: activity_tracking_app folder
 
 ```
+
   <CldUploadWidget uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}>
     {({ open }) => (
         <button className="btn btn-primary" onClick={() => open()}>
@@ -308,8 +354,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 - now you can access session information from anywhere in the app
 - wherever you access session data, you need to convert the component to client component
+- use this to access session from client component
 
-###### Accessing session from the server
+```
+  import { useSession } from "next-auth/react";
+  const { status, data: session } = useSession();
+
+```
+
+###### Accessing session from the server (components and routes)
 
 - un SRC (server rendered components) load the following
 
@@ -358,7 +411,19 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
       return NextResponse.redirect(new URL("/api/auth/signin", req.url));
     }
   });
-  export const config = { matcher: ["/users/:path*"] }
+  export const config = { matcher: ["/issues/list"] }
+```
+
+#### Protecting Endpoints
+
+- a god practice is to protect routes that modify data but not those that read data (some cases)
+- if we use the route middleware, the entire route would be protected, so in the api layer
+  we want to protect by the operation level. (PUT, DELETE, POST)
+  - Adding session checkers in the Request itself
+
+```
+  const session = await auth();
+  if (!session) return NextResponse.json({}, {status: 401})
 ```
 
 #### Database adapter
@@ -403,3 +468,199 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - run `npm install resend`
 - create an account in [resend](https://resend.com/overview) - added with ekos.sv@gmail.com
 - add an `api key` and place it in `.env`
+
+#### Radix UI
+
+- see [documentation](https://www.radix-ui.com/)
+- you will use radix themes
+- run `npm install @radix-ui/themes`
+- add `import '@radix-ui/themes/styles.css';` at the top of the root layout page
+- add `import { Theme } from '@radix-ui/themes';` and wrap the body with the <Theme> component
+
+#### Markdown Editor
+
+- [React SimpleMDE (EasyMDE)](https://www.npmjs.com/package/react-simplemde-editor)
+- `npm install --save react-simplemde-editor easymde`
+- in order to render the content we need another lib `react-markdown@8.0.7`
+  - note, tailwing configuration disables to read headings and list items by default.
+  - we need to install aditional pluging [@tailwindcss/typography](https://v1.tailwindcss.com/docs/typography-plugin)
+  - [setup](https://github.com/tailwindlabs/tailwindcss-typography) - `npm install -D @tailwindcss/typography`
+  - add this to `tailwind.config.js`
+  ```
+    module.exports = {
+    theme: {
+    // ...
+    },
+    plugins: [
+    require('@tailwindcss/typography'),
+    // ...
+    ],
+    }
+  ```
+  - add `className="prose"` to the markdown element
+
+#### Handling Form submission
+
+- [React hook form](https://react-hook-form.com/)
+- `npm install react-hook-form@7.46.1`
+- using Controller component to wrap elements that do not accept props to merge with the register functionality of react-hook
+- added axios to handled API call.
+- added useRouter from navigator to handle redirect after saving issue.
+- frontend validation with same zod schema, using `@hookform/resolvers@3.3.1`
+
+#### Adding Skeletons
+
+- to keep consistency in loading pages
+- add skeloton elements in each instance to load data
+
+```
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
+```
+
+#### Link elements: combining RadixUI Link element with next/link functionality
+
+- you create a custom component
+- after mix the component, got this error: `Invalid <Link> with <a> child. Please remove <a> or use <Link legacyBehavior>.`
+- see [docs](https://nextjs.org/docs/app/api-reference/components/link#if-the-child-is-a-custom-component-that-wraps-an-a-tag)
+- you need to pass `<Link href={href} passHref legacyBehavior>` the extra params.
+
+## Provider
+
+#### [TankStack Query v5](https://tanstack.com/query/latest) - ReactQuery
+
+- making fetch with useEffect and axios or fetch is not efficient, error handling and coming back to the page generates a new query each time
+- we need to leverage caching, when we get data as lists, data that we dont need to re-fetch, unless its updated.
+- for this approach you need a wrapper, query provider.
+- look at the QueryClientProvider.tsx file
+- usage in client components:
+
+```
+  const {
+    data: users,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: () => axios.get<User[]>("/api/users").then((res) => res.data),
+    staleTime: 60 * 1000, // 60s
+    retry: 3,
+  });
+```
+
+#### Sorting on columns.
+
+- you implement a searchparam from the column clicked.
+
+```
+  <NextLink
+    href={{
+      query: { ...searchParams, orderBy: "name" },
+    }}
+  >
+    Name
+  </NextLink>
+```
+
+- the ` query: { ...searchParams, orderBy: "name" },` cares to update and keep any other searchParam in the query
+- NextLink is used to differenciate the color.
+
+###### Generating Dummy data for issues
+
+- using chatGPT to generate SQL statemens:
+
+```
+INSERT INTO Issue (title, description, status, createdAt, updatedAt) VALUES
+('Login Issue', 'Users are unable to login using their credentials.', 'OPEN', '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
+('Payment Gateway Down', 'The payment gateway is currently down, causing transaction failures.', 'IN_PROGRESS', '2024-01-02 12:30:00', '2024-01-02 14:00:00'),
+('UI Bug on Dashboard', 'Dashboard displays incorrect data for sales figures.', 'CLOSED', '2024-01-03 09:15:00', '2024-01-04 11:45:00'),
+('Email Notifications Not Sent', 'Users are not receiving email notifications after registration.', 'OPEN', '2024-01-04 08:45:00', '2024-01-04 08:45:00'),
+('Slow Page Load', 'The homepage takes too long to load.', 'IN_PROGRESS', '2024-01-05 11:00:00', '2024-01-05 13:30:00'),
+('Broken Link on Help Page', 'There is a broken link on the help page.', 'CLOSED', '2024-01-06 14:00:00', '2024-01-07 16:20:00'),
+('Database Timeout Error', 'Database queries are timing out during peak hours.', 'OPEN', '2024-01-07 15:10:00', '2024-01-07 15:10:00'),
+('Password Reset Issue', 'Users cannot reset their passwords.', 'IN_PROGRESS', '2024-01-08 07:50:00', '2024-01-08 09:20:00'),
+('Profile Picture Upload Failed', 'Users are unable to upload profile pictures.', 'CLOSED', '2024-01-09 10:05:00', '2024-01-10 12:30:00'),
+('Search Functionality Broken', 'Search results are not displaying correctly.', 'OPEN', '2024-01-10 09:25:00', '2024-01-10 09:25:00'),
+('API Rate Limit Exceeded', 'Clients are hitting the API rate limit frequently.', 'IN_PROGRESS', '2024-01-11 11:40:00', '2024-01-11 14:50:00'),
+('Localization Issue', 'Some UI texts are not localized correctly.', 'CLOSED', '2024-01-12 13:15:00', '2024-01-13 15:00:00'),
+('Billing Information Missing', 'Billing information is not being saved.', 'OPEN', '2024-01-13 14:45:00', '2024-01-13 14:45:00'),
+('Data Sync Error', 'Data synchronization between services is failing.', 'IN_PROGRESS', '2024-01-14 07:20:00', '2024-01-14 09:00:00'),
+('Incorrect Error Messages', 'Users receive incorrect error messages on failed actions.', 'CLOSED', '2024-01-15 10:30:00', '2024-01-16 11:45:00'),
+('File Download Issue', 'Files are not downloading correctly from the server.', 'OPEN', '2024-01-16 08:15:00', '2024-01-16 08:15:00'),
+('Broken Image Links', 'Some images are not loading on the product pages.', 'IN_PROGRESS', '2024-01-17 11:00:00', '2024-01-17 13:30:00'),
+('Cart Update Error', 'Users are unable to update their cart items.', 'CLOSED', '2024-01-18 14:10:00', '2024-01-19 16:20:00'),
+('Session Expiry Issue', 'User sessions are expiring too quickly.', 'OPEN', '2024-01-19 15:35:00', '2024-01-19 15:35:00'),
+('Notifications Delayed', 'Push notifications are delayed by several hours.', 'IN_PROGRESS', '2024-01-20 07:50:00', '2024-01-20 09:20:00');
+
+```
+
+#### Adding charts to the dashboard
+
+- we use [https://recharts.org/en-US/](https://recharts.org/en-US/)
+
+#### adding proper metadata
+
+- adding specific title page for each tab
+- at a minimun add title and description, but its a good practice to add openGraph and social media links
+- constant metadata:
+
+```
+  export const metadata: Metadata = {
+    title: "Issue Tracker - Dashboard",
+    description: "View a summary of project issues",
+  };
+
+```
+
+- dynamic metadata:
+
+```
+  export async function generateMetadata({ params }: Props) {
+    const issue = await prisma.issue.findUnique({
+      where: { id: parseInt(params.id) },
+    });
+
+    return {
+      title: issue?.title,
+      description: `Description of Issue #${issue?.id}`,
+    };
+  }
+```
+
+#### Improving performance - react cache for fetching data
+
+- one use case is the details page, making two prisma calls to get the issue by id.
+- we use the cache from react to make 1 call and reuse the data.
+
+```
+  import { cache } from "react";
+
+  const fetchUser = cache((issueId: number) =>
+    prisma.issue.findUnique({
+      where: { id: issueId },
+    })
+  );
+```
+
+#### Removing .env from history if accidentally commited to github.
+
+- if accidentally commited, this needs to be removed from the history for security purposes
+- you can go ahead to use [git-filter-repo](https://github.com/newren/git-filter-repo)
+- download this python file [git-filter-repo](https://github.com/newren/git-filter-repo/blob/main/git-filter-repo)
+  - paste it in your root, and rename it from txt to py. eg. `git-filter-repo.py`
+  - run the file using python3
+    - command: `python3 git-filter-repo.py --path .env --invert-paths --force`
+
+#### Error tracking - sentry.io
+
+- create an account - `ekos.sv@gmail.com - 15 days trial on 6.24.24`
+- install sdk by framework: `npx @sentry/wizard@latest -i nextjs`
+- commit changes
+
+# continue with:
+
+- 4. Sorting issues
+- Todo:
+  - need to fix refresh issue when navigating back in assign issue details page
+  - issue with cache for avatar icon, not displaying submenu options

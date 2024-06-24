@@ -11,7 +11,8 @@ export default auth((req) => {
 // Read more: https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
 export const config = {
   matcher: [
-    "/users/:path*",
+    "/issues/new",
+    "/issues/edit/:id+",
     /*
         * Match all request paths except for the ones starting with:
         * - api (API routes)
