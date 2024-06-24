@@ -27,12 +27,14 @@ export const LatestIssues = async () => {
                     <Link href={`/issue/${issue.id}`}>{issue.title}</Link>
                     <IssueStatusBadge status={issue.status} />
                   </Flex>
-                  <Avatar
-                    src={issue.assignedToUser?.image!}
-                    fallback="?"
-                    size="2"
-                    radius="full"
-                  />
+                  {issue.assignedToUser && (
+                    <Avatar
+                      src={issue.assignedToUser?.image!}
+                      fallback="?"
+                      size="2"
+                      radius="full"
+                    />
+                  )}
                 </Flex>
               </Table.Cell>
             </Table.Row>
